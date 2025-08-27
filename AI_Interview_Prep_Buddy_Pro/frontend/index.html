@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Interview Prep Buddy — Pro</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    /* Glassmorphism helpers */
+    .glass {
+      background: rgba(255, 255, 255, 0.35);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+    /* Fade slide animation */
+    @keyframes fadeUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .fadeUp { animation: fadeUp 400ms ease both; }
+    /* Pulse ring for mic button */
+    .ring-pulse::after {
+      content: "";
+      position: absolute;
+      inset: -6px;
+      border-radius: 9999px;
+      border: 2px solid rgba(99,102,241,0.4);
+      animation: ring 1.4s ease-out infinite;
+    }
+    @keyframes ring {
+      0% { transform: scale(0.9); opacity:1; }
+      100% { transform: scale(1.25); opacity:0; }
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100">
+  <div class="max-w-5xl mx-auto p-6">
+    <header class="text-center mb-6 fadeUp">
+      <h1 class="text-4xl font-extrabold">🤖 AI Interview Prep Buddy <span class="text-indigo-600">Pro</span></h1>
+      <p class="text-gray-700">Practice smart. Get instant feedback. Keep your history. Export as PDF.</p>
+    </header>
+
+    <div class="grid lg:grid-cols-3 gap-6">
+      <!-- Left: Controls + Session -->
+      <section class="lg:col-span-2 glass rounded-2xl p-6 fadeUp">
+        <!-- Controls Row -->
+        <div class="grid sm:grid-cols-3 gap-4 mb-4">
+          <div>
+            <label class="block text-sm font-semibold mb-1">Role</label>
+            <select id="roleSelect" class="w-full p-2 border rounded">
+              <option value="software">Software Engineer</option>
+              <option value="cybersecurity">Cybersecurity Analyst</option>
+              <option value="frontend">Frontend Developer</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold mb-1">Difficulty</label>
+            <select id="difficultySelect" class="w-full p-2 border rounded">
+              <option value="easy">Easy</option>
+              <option value="medium" selected>Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </div>
+          <div class="flex items-end">
+            <button id="startBtn" class="w-full py-2 bg-indigo-600 hover:bg-indigo-700 transition text-white rounded-lg font-semibold">🚀 Start Interview</button>
+          </div>
+        </div>
+
+        <!-- Progress -->
+        <div id="progressWrap" class="hidden mb-4">
+          <div class="flex justify-between text-sm mb-1">
+            <span id="progressText" class="font-semibold">Question 1/5</span>
+            <span id="timerText">Time: 00:00</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
+            <div id="progressBar" class="bg-indigo-600 h-2.5 rounded-full transition-all" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <!-- Question -->
+        <div id="questionBox" class="hidden mb-3 p-4 bg-gray-50 border rounded fadeUp"></div>
+
+        <!-- Answer -->
+        <textarea id="answerInput" rows="5" class="hidden w-full p-3 border rounded mb-3" placeholder="Answer here or use voice..."></textarea>
+        <div class="flex gap-2 mb-4">
+          <button id="voiceBtn" class="hidden relative px-4 py-2 bg-blue-600 hover:bg-blue-700 transition text-white rounded ring-pulse">🎤 Speak</button>
+          <button id="stopVoiceBtn" class="hidden px-4 py-2 bg-gray-700 hover:bg-gray-800 transition text-white rounded">⏹ Stop</button>
+          <button id="nextBtn" class="hidden ml-auto px-4 py-2 bg-green-600 hover:bg-green-700 transition text-white rounded">Next ▶</button>
+        </div>
+
+        <!-- Feedback -->
+        <div id="feedbackBox" class="hidden p-4 border rounded bg-green-50 fadeUp"></div>
+
+        <!-- Result -->
+        <div id="resultBox" class="hidden p-5 border-2 border-indigo-300 rounded-2xl bg-indigo-50 fadeUp"></div>
+      </section>
+
+      <!-- Right: History -->
+      <aside class="glass rounded-2xl p-6 fadeUp">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-xl font-bold">📚 Session History</h2>
+          <button id="clearHistoryBtn" class="text-xs px-2 py-1 bg-rose-600 text-white rounded">Clear</button>
+        </div>
+        <div id="historyList" class="space-y-3 text-sm">
+          <!-- History items injected here -->
+        </div>
+      </aside>
+    </div>
+
+    <footer class="text-center text-xs text-gray-600 mt-6">
+      Tip: Keep answers concise (60–120s). Use examples and metrics.
+    </footer>
+  </div>
+
+  <script>
+    const API_BASE = "http://localhost:3000";
+  </script>
+  <script src="./script.js"></script>
+</body>
+</html>
